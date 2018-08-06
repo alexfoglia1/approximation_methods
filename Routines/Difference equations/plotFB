@@ -1,2 +1,0 @@
-yn = fatalbit(70)
-plot(yn,'.')
