@@ -1,0 +1,12 @@
+comparelmf;
+close;
+e_ad = abs(adams_bf-real_values);
+e_mid = abs(midpoint-real_values);
+e_eul = abs(euler-real_values);
+hold on;
+left_in=1;
+right_in=50;
+plot(intval(left_in:right_in),e_mid(left_in:right_in),'DisplayName','Midpoint Error');
+plot(intval(left_in:right_in),e_ad(left_in:right_in),'DisplayName','Adams-BF Error');
+plot(intval(left_in:right_in),e_eul(left_in:right_in),'DisplayName','Euler error');
+legend(gca,'show','Location','northwest');
