@@ -6,7 +6,7 @@ for i=1:length(intval)
     real_values(i)=FUN(intval(i));
 end
 y0 = 1;
-y1 = real_values(1);
+y1 = FUN(abscisse(1));
 midpoint_ai = [-1, 0, 1];
 midpoint_bi = [0, 2,  0];
 adams_bf_ai = [-1,1,0];
@@ -21,10 +21,10 @@ trap_ai = [-1,1];
 trap_bi = [1/2,1/2];
 euler=multistep(euler_ai,euler_bi,y0,intval,fun);
 trap=multistep(trap_ai,trap_bi,y0,intval,fun);
-midpoint=multistep(midpoint_ai,midpoint_bi,[y0,y1],intval,fun);
-adams_bf=multistep(adams_bf_ai,adams_bf_bi,[y0,y1],intval,fun);
-adams_m=multistep(adams_m_ai,adams_m_bi,[y0,y1],intval,fun);
-simpson=multistep(simpson_ai,simpson_bi,[y0,y1],intval,fun);
+midpoint=multistep(midpoint_ai,midpoint_bi,[y0,y0],intval,fun);
+adams_bf=multistep(adams_bf_ai,adams_bf_bi,[y0,y0],intval,fun);
+adams_m=multistep(adams_m_ai,adams_m_bi,[y0,y0],intval,fun);
+simpson=multistep(simpson_ai,simpson_bi,[y0,y0],intval,fun);
 hold on;
 plot(intval,midpoint,'DisplayName','Midpoint');
 plot(intval,euler,'DisplayName','Euler');

@@ -10,7 +10,3 @@ function [approx_values] = euler_impl(abscisse,x0,step_size,n_steps,fun)
         approx_values(i+2) = yi + h * fi;
     end 
 end
-
-function [y] = one_step_fwd(t, y0, h, f)
-	y = y0 + h*f(t,y0);
-end
