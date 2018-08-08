@@ -1,7 +1,7 @@
 %age classes     [Children]   [Young]     [Adult]     [Olds]     
 %birth rates     0.81844      0.070636    0.024407     0.003298    
 %survival        0.071936     0.189763    0.115040     0
-%start gen       10           25          30           15     
+%start gen       100          250         300          150  
 birth_rates=[0.81844,0.070636,0.024407,0.003298];
 survival = [0.071936,0.189763,0.115040];
 start_gen= [100,250,300,150];
