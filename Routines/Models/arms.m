@@ -7,5 +7,8 @@ function [res] = arms(a,b,c,d,xi,eta,x0,y0,h,T)
     for i = 1:iter
         res = res+h*(A*transpose(res)+f);
     end
+    app = res(1,:);
+    res(1,:)=res(2,:);
+    res(2,:)=app;
 end
 
