@@ -5,7 +5,10 @@ sx = sfun(x);
 dx = dfun(x);
 plot(sx,'DisplayName','S');
 plot(dx,'DisplayName','D');
+pts = [300,340,380,420];
+plot
+d = [dfun(s(1)),dfun(s(2)),dfun(s(3))];
+plot(s,d);
 legend(gca,'show','Location','southeast');
-
 
 

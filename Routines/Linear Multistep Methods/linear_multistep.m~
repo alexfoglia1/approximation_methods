@@ -1,0 +1,47 @@
+function [y,t] = linear_multistep(f,t0,y0,h,T,rho,sigma)
+    [n,m] = size(rho);
+    [s,t] = size(sigma);
+    s1 = s-1;
+    n = ceil((T-t0)/h);
+    t = linspace(t0,t0+h*n,n+1);
+    t = t';
+    y = zeros(n+1,1);
+    fy = zeros(s1,1);
+    if s>1;
+    [a,b,~]=backward_euler(f,t0,y0,h,t0+s1*h,analytic);
+    y(1:s1)=a(1:s1);
+    for i=1:s1;
+        fy(i)=f(b(i),a(i));
+    end
+    else
+    y(1)=y0;
+    fy(1)=f(t0,y0);
+end
+end
+
+function [yn,t] = euler_impl(f,t0,y0,h,tf)
+    N = ceil((tf-t0)/h);
+    intval = linspace(t0,tf,N+1);
+    t = intval';
+    yn = zeros(n+1,1);
+    yn(1) = y0;
+    for i = 2:n+1
+        G = @(y) (y - yn(i-1) - h*f(t(i),yn(i)));
+        M = inv( eye(length(y0)) - h*f(t(i),yn(i)));
+        yn(i) = one_step(yn(i-1),G,M);
+    end
+end
+
+function [y] = one_step(yn,G,M,tol)
+    if nargin == 3
+        tol = 1.e-5;
+    end
+    y = yn;
+    scal = norm(y)+1;
+    Delta = -M*G(y);
+    while norm(Delta)/scal > tol
+        Delta = -M*G(y);
+        y = y + Delta;
+    end
+        
+end

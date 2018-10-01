@@ -35,13 +35,15 @@ function [yn] = multistep(ai,bi,init_conds,intval,f)
             fn(i)=f(tn(i),known_yn1(i));
         end
         if impl
-            fn(k+1) = one_step_fwd(tn(k+1),yn(n),h,f);
+            fn(k+1) = impl_step(tn(k+1),yn(n),h,f);
         end
         comb_lin2 = comblin(fn,bi);
         yn(n+1)  = (comb_lin1 + h * comb_lin2)/-ai(1);
         n = n+1;
     end
 end
+
+function [
 
 function [cl] = comblin(v,alpha)
     n = length(v);

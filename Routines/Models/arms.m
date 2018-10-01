@@ -1,14 +1,13 @@
-function [res] = arms(a,b,c,d,xi,eta,x0,y0,h,T)
-    A=[-a,b;
-        c,-d];
-    res = [x0,y0];
-    f = [xi,eta];
-    iter = round(T/h);
-    for i = 1:iter
-        res = res+h*(A*transpose(res)+f);
-    end
-    app = res(1,:);
-    res(1,:)=res(2,:);
-    res(2,:)=app;
+function [xsol,ysol] = arms(a,b,c,d,xi,eta,x0,y0)
+    syms x(t) y(t)
+    A=[-a, b;
+        c, -d];
+    Y = [x;y];
+    B = [xi;eta];
+    odes = diff(Y) == A*Y + B;
+    C = Y(0) == [x0;y0];
+   [xsol(t),ysol(t)]=dsolve(odes,C);
+   xsol(t) = simplify(xsol(t));
+   ysol(t) = simplify(ysol(t));
 end
 
