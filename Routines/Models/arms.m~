@@ -1,0 +1,26 @@
+function [xsol,ysol,tsol] = arms(a,b,c,d,xi,eta,x0,y0,t0,tf,h)
+   args = [a,b,c,d,xi,eta];
+   [xsol,ysol,tsol] = expliciteuler(args,h,x0,y0,t0,tf);
+end
+
+function [x] = xt(t,x,a,b,xi)
+    x = -a*x+b*yt(t)+xi;
+end
+
+function [y] = yt(t,y,c,d,eta)
+    y = c*xt(t)-d*y+eta;
+end
+
+
+function [xn,yn,tn] = expliciteuler(args,h,x0,y0,t0,tf)
+    N = 1+((tf-t0)/h);
+    tn = linspace(t0,tf,N);
+    xn = zeros(1,N);
+    yn = zeros(1,N);
+    xn(1) = x0;
+    yn(1) = y0;
+    for i=2:N
+        xn(i) = xn(i-1) + h*f(tn(i),xn(i));
+        yn(i) = yn(i-1) + h*g(tn(i),yn(i));
+    end
+end

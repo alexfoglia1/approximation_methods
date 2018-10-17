@@ -11,16 +11,20 @@ function [y,t] = linear_multistep(f,t0,y0,h,tf,ai,bi)
         t0 = temp;
     end
     s1 = s-1;
-    n = ceil((tf-t0)/h);
-    t = linspace(t0,t0+h*n,n+1)';
+    n = ceil((tf-t0(1))/h);
+    t = linspace(t0(1),t0(1)+h*n,n+1)';
     y = zeros(n+1,1);
     fy = zeros(s1,1);
-    y(1)=y0;
-    for k=0:n-s
+    F0 = numjacobian(f,t0,y0);
+    fy(1:s1)=F0;
+    M = inv(eye(s1) -  h*(bi(1:s1)'*F0));
+    y(1:s1)=y0(1:s1);
+    for k=0:n-s1:s1
         G = @(x) ai(s)*x + (ai(1:s1)'*y(k+1:s1+k)) - ...
-            h*(bi(1:s1)'*fy) - h*bi(s)*f(t(s+k),x);
-        M = inv(eye(s1) -  h*(bi(1:s1)'*fy));
-        y(s+k) = one_step(y(s+k-1),G,M);
+            h*(bi(1:s1)'*fy(1:s1)) - h*bi(s)*f(t(s+k),x);
+        app = one_step(y(s+k:s+k+s1),G,M)
+        s+k+s1-s+k
+        y(s+k:s+k+s1) = app;
         fy(1:s1-1)=fy(2:s1);
         fy(s1)=f(t(s+k),y(s+k));
     end
@@ -52,16 +56,19 @@ function [y] = one_step(yn,G,M,tol,maxit)
     if nargin == 3
         tol = 1.e-5;
         maxit = 1000;
-    end
     elseif nargin == 4
         maxit = 1000;
-end
+    end
     y = yn;
     scal = norm(y)+1;
     Delta = -M*G(y);
-    while norm(Delta)/scal > tol
+    it = 0;
+    while norm(Delta)/scal > tol && it < maxit
         Delta = -M*G(y);
         y = y + Delta;
+        it = it+1;
     end
-        
+    if it == maxit
+        warning('Reached max iteration\n');
+    end
 end

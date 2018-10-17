@@ -11,19 +11,22 @@ function [y,t] = linear_multistep(f,t0,y0,h,tf,ai,bi)
         t0 = temp;
     end
     s1 = s-1;
-    n = ceil((tf-t0)/h);
-    t = linspace(t0,t0+h*n,n+1)';
+    n = ceil((tf-t0(1))/h);
+    t = linspace(t0(1),t0(1)+h*n,n+1)';
     y = zeros(n+1,1);
     fy = zeros(s1,1);
     F0 = numjacobian(f,t0,y0);
-    M = inv(eye(s1) -  h*(bi(s1)'*F0));
-    y(1)=y0;
-    for k=0:n-s1
+    fy(1:s1)=F0;
+    M = inv(eye(s1) -  h*(bi(1:s1)'*F0));
+    y(1:s1)=y0(1:s1);
+    k=0;
+    while k <= n-s1-1
         G = @(x) ai(s)*x + (ai(1:s1)'*y(k+1:s1+k)) - ...
-            h*(bi(1:s1)'*fy) - h*bi(s)*f(t(s+k),x);
-        y(s+k) = one_step(y(s+k-1),G,M);
+            h*(bi(1:s1)'*fy(1:s1)) - h*bi(s)*f(t(s+k),x);
+        y(s+k:s+k+s1-1) = one_step(y(s+k:s+k+s1-1),G,M);
         fy(1:s1-1)=fy(2:s1);
         fy(s1)=f(t(s+k),y(s+k));
+        k = k+1;
     end
 end
 
