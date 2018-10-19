@@ -1,9 +1,9 @@
 fun = @(t,y) 10*y-2*y.^2;
 FUN = @(t) 5/(1+4*exp(-10*t));
-tf = 2.5;
+tf = 3;
 h = 0.01;
-ai = LMMCoefficients.MIDA;
-bi = LMMCoefficients.MIDB;
+ai = LMMCoefficients.BDF6A;
+bi = LMMCoefficients.BDF6B;
 leny0 = length(ai)-1;
 t0 = zeros(1,leny0);
 y0 = zeros(1,leny0);

@@ -1,0 +1,10 @@
+comparelmf;
+close all;
+errorlmf = abs(real_values-appr);
+rk = explrungekutta(y0(1),ti,fun);
+plot(ti,errorlmf,'DisplayName','LMF Error');
+errorrk = abs(real_values-rk);
+hold on;
+grid on;
+plot(ti,errorrk,'DisplayName','RK Error');
+legend(gca,'show','Location','best');

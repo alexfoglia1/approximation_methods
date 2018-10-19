@@ -7,7 +7,7 @@ function [t,y] = implexpl(f,t0,y0,h,tf,ai,bi)
         error('Length of ai is different from length of bi');
     elseif length(ai)~=length(t0)+1
         error('Length of ai and bi is different from length of y0 and t0 +1');
-    elseif sum(ai)~=0
+    elseif sum(ai)>0.00001
         warning('Sum of ai is not equal to 0.'+ ...
             'this will lead to an unconsistant result');
     elseif ai(end)==0

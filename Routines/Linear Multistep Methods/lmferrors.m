@@ -1,8 +1,7 @@
 comparelmf;
 close all;
-error_euler = abs(real_values-euler);
-error_midpoint = abs(real_values-midpoint);
-plot(error_euler,'DisplayName','Euler Error');
+error = abs(real_values-appr);
+plot(error,'DisplayName','Error');
 hold on;
 grid on;
 legend(gca,'show','Location','best');
