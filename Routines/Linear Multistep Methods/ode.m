@@ -1,0 +1,13 @@
+h = 0.1;
+a = 0;
+b = 6.30;
+F = @(t)sin(t);
+f = @(t,y)cos(t);
+tspan = linspace(a,b,(b-a)/h);
+[tspan,appr] = ode23s(f,tspan,0.005);
+real = F(tspan);
+plot(tspan,appr,'DisplayName','ODE23S');
+hold on;
+plot(tspan,real,'DisplayName','Real Function');
+grid on;
+legend(gca,'show','location','best');
