@@ -1,5 +1,5 @@
-function [t,y] = implexpl(f,t0,y0,h,tf,ai,bi)
-    if tf<t0(1)
+function [t,y] = implexpl(f,t0,y0,h,T,ai,bi)
+    if T<t0(1)
         error('Last abscissa is less than the first');
     elseif length(t0)~=length(y0)
         error('Length of t0 is different from length of y0');
@@ -17,7 +17,7 @@ function [t,y] = implexpl(f,t0,y0,h,tf,ai,bi)
     if bi(end) ~= 0
         implicit = 1;
     end
-    n = ceil((tf-t0(1))/h);
+    n = ceil((T-t0(1))/h);
     t = NaN*ones(1,n+1);
     y = zeros(1,n+1);
     s1 = length(ai) -1;
@@ -26,7 +26,7 @@ function [t,y] = implexpl(f,t0,y0,h,tf,ai,bi)
     t(1:s1) = t0;
     last_t = s1;
     k = 1;
-    while t(last_t)<tf
+    while t(last_t)<T
         act_t = t(k:last_t);
         act_y = y(k:last_t);
         if implicit == 1
